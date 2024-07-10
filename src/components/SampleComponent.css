@@ -1,0 +1,54 @@
+ /* MyComponent styles */
+  .MyComponent {
+    padding: 20px;
+    border: 1px solid #ccc;
+    background-color: aqua;
+  }
+  
+  .MyComponent h1,
+  .MyComponent h2 {
+    margin-bottom: 20px;
+  }
+  
+  /* Form styles */
+  .MyComponent form {
+    display: flex;
+    flex-direction: column;
+    gap: 10px; /* Space between form elements */
+  }
+  
+  .MyComponent label {
+    display: flex;
+    align-items: center;
+    margin-bottom: 5px;
+  }
+  
+  .MyComponent input[type="text"],
+  .MyComponent input[type="number"] {
+    padding: 5px;
+    border: 1px solid #ccc;
+  }
+  
+  .MyComponent button {
+    padding: 10px 20px;
+    background-color: #4CAF50;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  
+  /* Table styles */
+  .MyComponent table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+  
+  .MyComponent th,
+  .MyComponent td {
+    border: 1px solid #ccc;
+    padding: 8px;
+    text-align: left;
+  }
+  
+  
