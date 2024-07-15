@@ -1,6 +1,7 @@
 import ReactDOM from "react-dom/client";
 import React from "react";
-import BlockNoteEditor from '../components/Blocknote'
+import BlockNoteEditor from "../components/Blocknote";
+import SampleComponent from "../components/SampleComponent";
 
 export default (editor) => {
   const domc = editor.Components;
@@ -96,16 +97,32 @@ export default (editor) => {
     view: coreReactView,
   });
 
-  domc.addType('blocknote-editor', {
+  domc.addType("blocknote-editor", {
     model: {
       ...coreReactModel,
       defaults: {
         component: BlockNoteEditor,
-        tagName: 'div',
+        tagName: "div",
         draggable: true,
         droppable: false,
         editable: false,
-        attributes: { class: 'blocknote-editor' },
+        attributes: { class: "blocknote-editor" },
+      },
+    },
+    view: coreReactView,
+  });
+
+  // testing by addinga sample component
+  domc.addType("sample-component", {
+    model: {
+      ...coreReactModel,
+      defaults: {
+        component: SampleComponent,
+        tagName: "div",
+        draggable: true,
+        droppable: false,
+        editable: false,
+        attributes: { class: "MyComponent" },
       },
     },
     view: coreReactView,

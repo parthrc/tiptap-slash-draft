@@ -1,6 +1,6 @@
 import React from 'react';
-// import './SampleComponent.css'
-const MyComponent = () => {
+import './SampleComponent.css'
+const SampleComponent = () => {
   const dummyData = [
     { id: 1, name: 'John Doe', age: 28 },
     { id: 2, name: 'Jane Smith', age: 34 },
@@ -52,4 +52,4 @@ const MyComponent = () => {
   );
 };
 
-export default MyComponent;
+export default SampleComponent;
