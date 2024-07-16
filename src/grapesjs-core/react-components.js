@@ -2,6 +2,7 @@ import ReactDOM from "react-dom/client";
 import React from "react";
 import BlockNoteEditor from "../components/Blocknote";
 import SampleComponent from "../components/SampleComponent";
+import CustomGrapesjsParent from "../components/custom-parent-component/custom-grapesjs-parent.jsx";
 
 export default (editor) => {
   const domc = editor.Components;
@@ -123,6 +124,27 @@ export default (editor) => {
         droppable: false,
         editable: false,
         attributes: { class: "MyComponent" },
+      },
+    },
+    view: coreReactView,
+  });
+
+  
+
+  // A Higher order custom component
+  // Can drop other grapesjs components inside it
+  // when user will click anywhere, a textbox would pop up
+  // will ahve slash menu option
+  domc.addType("custom-grapesjs-parent", {
+    model: {
+      ...coreReactModel,
+      defaults: {
+        component: CustomGrapesjsParent,
+        tagName: "div",
+        draggable: true,
+        droppable: true,
+        editable: false,
+        attributes: { class: "customGrapesjs" },
       },
     },
     view: coreReactView,
