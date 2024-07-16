@@ -4,8 +4,7 @@ import React, { useEffect, useState } from "react";
 import "grapesjs/dist/css/grapes.min.css";
 import GrapesJS from "grapesjs";
 import ReactComponents from "../grapesjs-core/react-components";
-import GrapesEditorContext from "./GrapesEditorContext";
-import CustomGrapesjsParent from "@/components/custom-parent-component/custom-grapesjs-parent";
+import GrapesjsWebpagePresetPlugin from "grapesjs-preset-webpage";
 import useEditorStore from "@/store/editor";
 
 export default function Home() {
@@ -18,7 +17,7 @@ export default function Home() {
       showOffsets: true,
       noticeOnUnload: false,
       storageManager: false,
-      plugins: [ReactComponents],
+      plugins: [ReactComponents, GrapesjsWebpagePresetPlugin],
       canvas: {
         styles: [
           "styles/blocknote-mantine.css",
@@ -53,7 +52,7 @@ export default function Home() {
       content: { type: "sample-component" },
       category: "New category",
     });
-    
+
     // Testing by adding a second sample component
     editor.Blocks.add("sample-second", {
       label: "Sample 2",

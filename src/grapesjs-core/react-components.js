@@ -114,7 +114,7 @@ export default (editor) => {
     view: coreReactView,
   });
 
-  // testing by addinga sample component
+  // testing by adding a sample component
   domc.addType("sample-component", {
     model: {
       ...coreReactModel,
