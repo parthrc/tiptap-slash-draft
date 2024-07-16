@@ -1,6 +1,15 @@
 .customGrapesjs {
-  background-color: seashell;
+  background-color: rgb(240, 240, 240);
   color: black;
   min-height: 10rem;
+  width: 100%;
+}
+
+#custom-input {
+  /* height: 5rem; */
+  font-size: medium;
+  padding: 0.25rem;
+  background-color: gainsboro;
+  border: none;
   width: 100%;
 }

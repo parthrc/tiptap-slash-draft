@@ -1,10 +1,13 @@
 import { useEffect, useRef, useState } from "react";
 import "./custom-grapesjs-parent.css";
+import EditableDiv from "./components/EditableDiv.jsx";
 
 const demottexts = [];
 
 const CustomGrapesjsParent = () => {
   const [divs, setDivs] = useState(["Div 1", "Div 2", "Div 3"]);
+  // Track the index of the div being edited
+  const [editingIndex, setEditingIndex] = useState(null);
   // Ref for parent div
   const parentRef = useRef();
   // ref for number of children divs
@@ -43,18 +46,40 @@ const CustomGrapesjsParent = () => {
     }
 
     // Insert the new div at the calculated position
-    setDivs((prevDivs) => [
-      ...prevDivs.slice(0, insertIndex),
-      `New Div ${Date.now()}`,
-      ...prevDivs.slice(insertIndex),
-    ]);
+    setDivs((prevDivs) => {
+      const newDivs = [
+        ...prevDivs.slice(0, insertIndex),
+        `New Div ${Date.now()}`,
+        ...prevDivs.slice(insertIndex),
+      ];
+      setEditingIndex(insertIndex);
+      return newDivs;
+    });
+  };
+
+  const handleSave = (index, newText) => {
+    setDivs((prevDivs) =>
+      prevDivs.map((div, i) => (i === index ? newText : div))
+    );
+    setEditingIndex(null);
+  };
+
+  const handleCancel = () => {
+    setDivs((prevDivs) =>
+      prevDivs.filter((_, index) => index !== editingIndex)
+    );
+    setEditingIndex(null);
   };
 
   return (
     <div
       ref={parentRef}
       onClick={handleParentClick}
-      style={{ border: "1px solid black", padding: "10px" }}
+      style={{
+        border: "1px solid black",
+        padding: "10px",
+        position: "relative",
+      }}
     >
       {divs.map((div, index) => (
         <div
@@ -66,7 +91,15 @@ const CustomGrapesjsParent = () => {
             backgroundColor: "lightgray",
           }}
         >
-          {div}
+          {editingIndex === index ? (
+            <EditableDiv
+              text=""
+              onSave={(newText) => handleSave(index, newText)}
+              onCancel={handleCancel}
+            />
+          ) : (
+            div
+          )}
         </div>
       ))}
     </div>

@@ -2,3 +2,10 @@
   background-color: red;
   color: black;
 }
+
+#custom-input {
+  height: 5rem;
+  font-size: medium;
+  padding: 1rem;
+  background-color: purple;
+}
