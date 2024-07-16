@@ -53,6 +53,13 @@ export default function Home() {
       content: { type: "sample-component" },
       category: "New category",
     });
+    
+    // Testing by adding a second sample component
+    editor.Blocks.add("sample-second", {
+      label: "Sample 2",
+      content: { type: "sample2" },
+      category: "New category",
+    });
 
     // Block for custom-grapesjs-parent component
     editor.Blocks.add("custom-grapesjs-parent", {

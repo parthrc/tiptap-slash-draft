@@ -2,6 +2,7 @@ import ReactDOM from "react-dom/client";
 import React from "react";
 import BlockNoteEditor from "../components/Blocknote";
 import SampleComponent from "../components/SampleComponent";
+import SecondSample from "../components/SecondSample";
 import CustomGrapesjsParent from "../components/custom-parent-component/custom-grapesjs-parent.jsx";
 
 export default (editor) => {
@@ -129,7 +130,21 @@ export default (editor) => {
     view: coreReactView,
   });
 
-  
+  // testing second sample component
+  domc.addType("sample2", {
+    model: {
+      ...coreReactModel,
+      defaults: {
+        component: SecondSample,
+        tagName: "div",
+        draggable: true,
+        droppable: false,
+        editable: false,
+        attributes: { class: "MyComponent" },
+      },
+    },
+    view: coreReactView,
+  });
 
   // A Higher order custom component
   // Can drop other grapesjs components inside it
