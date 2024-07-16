@@ -23,6 +23,8 @@ export default function Home() {
           "styles/blocknote-mantine.css",
           "styles/custom-grapesjs-parent.css",
           "styles/SampleComponent.css",
+          "styles/prosemirror.css",
+          "styles/menu.css",
         ],
       },
       canvasCss: ".gjs-plh-image {width:auto;height:auto;}",

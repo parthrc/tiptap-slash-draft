@@ -1,51 +1,39 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState } from "react";
 import SlashMenu from "./SlashMenu.jsx";
+import Tiptap from "../../tiptap/Tiptap.jsx";
 
 const EditableDiv = ({ text, onSave, onCancel }) => {
   const [inputValue, setInputValue] = useState(text);
-  // state for slash menu
   const [showMenu, setShowMenu] = useState(false);
   const [query, setQuery] = useState("");
-  const inputRef = useRef();
 
-  // automatically focus on input element creation
-  useEffect(() => {
-    inputRef.current.focus();
-  }, []);
-
-  const handleInputChange = (e) => {
-    const value = e.target.value;
-    setInputValue(value);
-    // check if '/' was typed
-    const lastSlashIndex = value.lastIndexOf("/");
+  const handleInputChange = (content) => {
+    setInputValue(content);
+    const lastSlashIndex = content.lastIndexOf("/");
     if (lastSlashIndex !== -1) {
       setShowMenu(true);
-      setQuery(value.substring(lastSlashIndex + 1));
+      setQuery(content.substring(lastSlashIndex + 1));
     } else {
       setShowMenu(false);
     }
   };
 
-  const handleInputBlur = () => {
-    setTimeout(() => {
-      setShowMenu(false);
-      if (inputValue.trim() === "") {
-        onCancel();
-      } else {
-        onSave(inputValue);
-      }
-    }, 200);
-  };
-
-  const handleInputKeyDown = (e) => {
-    if (e.key === "Enter") {
-      handleInputBlur();
+  const handleBlur = () => {
+    if (inputValue.trim() === "") {
+      onCancel();
+    } else {
+      onSave(inputValue);
     }
   };
 
-  // setInputValue when using slash menu
+  const handleKeyDown = (e) => {
+    if (e.key === "Enter" && !e.shiftKey) {
+      e.preventDefault(); // Prevents default behavior (like newline)
+      handleBlur();
+    }
+  };
+
   const handleSetInputValue = (value) => {
-    // get index of slash
     const lastSlashIndex = inputValue.lastIndexOf("/");
     const newValue = inputValue.substring(0, lastSlashIndex + 1) + value;
     setInputValue(newValue);
@@ -54,18 +42,13 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
 
   return (
     <div style={{ position: "relative" }}>
-      <input
-        id="custom-input"
-        type="text"
-        ref={inputRef}
-        value={inputValue}
+      <Tiptap
+        initialValue={inputValue}
         onChange={handleInputChange}
-        onBlur={handleInputBlur}
-        onKeyDown={handleInputKeyDown}
+        onBlur={handleBlur}
+        onKeyDown={handleKeyDown}
       />
-      {showMenu && (
-        <SlashMenu query={query} setInputValue={handleSetInputValue} />
-      )}
+      {showMenu && <SlashMenu query={query} setInputValue={handleSetInputValue} />}
     </div>
   );
 };

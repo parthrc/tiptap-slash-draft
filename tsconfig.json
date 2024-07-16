@@ -23,6 +23,6 @@
       "@/*": ["./src/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/custom-parent-component/components/EditableDiv.jsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts", "src/components/custom-parent-component/components/EditableDiv.jsx", "src/components/custom-parent-component/custom-grapesjs-parent.jsx", "src/components/tiptap/Tiptap.jsx"],
   "exclude": ["node_modules"]
 }
