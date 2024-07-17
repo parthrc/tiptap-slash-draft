@@ -6,9 +6,10 @@ import GrapesJS from "grapesjs";
 import ReactComponents from "../grapesjs-core/react-components";
 import GrapesjsWebpagePresetPlugin from "grapesjs-preset-webpage";
 import useEditorStore from "@/store/editor";
+import CustomGrapesjsParent from "@/components/custom-parent-component/custom-grapesjs-parent";
 
 export default function Home() {
-  const { setAvailableBlocks } = useEditorStore();
+  const { setAvailableBlocks, setEditor } = useEditorStore();
 
   useEffect(() => {
     const editor = GrapesJS.init({
@@ -35,7 +36,11 @@ export default function Home() {
       },
     });
 
-    editor.Blocks.add("blocknote-editor-block", {
+    if (editor) {
+      setEditor(editor);
+    }
+
+    editor.Blocks.add("blocknote-editor", {
       label: "BlockNote Editor",
       content: { type: "blocknote-editor" },
       category: "React Components",
@@ -49,14 +54,14 @@ export default function Home() {
     // });
 
     // Testing by adding a sample component
-    editor.Blocks.add("sample-component-block", {
+    editor.Blocks.add("sample-component", {
       label: "Sample component",
       content: { type: "sample-component" },
       category: "New category",
     });
 
     // Testing by adding a second sample component
-    editor.Blocks.add("sample-second", {
+    editor.Blocks.add("sample2", {
       label: "Sample 2",
       content: { type: "sample2" },
       category: "New category",

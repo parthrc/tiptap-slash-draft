@@ -18,18 +18,11 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
     }
   };
 
-  const handleBlur = () => {
+  const handleSave = () => {
     if (inputValue.trim() === "") {
       onCancel();
     } else {
       onSave(inputValue);
-    }
-  };
-
-  const handleKeyDown = (e) => {
-    if (e.key === "Enter" && !e.shiftKey) {
-      e.preventDefault(); // Prevents default behavior (like newline)
-      handleBlur();
     }
   };
 
@@ -42,13 +35,15 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
 
   return (
     <div style={{ position: "relative" }}>
-      <Tiptap
-        initialValue={inputValue}
-        onChange={handleInputChange}
-        onBlur={handleBlur}
-        onKeyDown={handleKeyDown}
-      />
-      {showMenu && <SlashMenu query={query} setInputValue={handleSetInputValue} />}
+      <Tiptap initialValue={inputValue} onChange={handleInputChange} />
+      {showMenu && (
+        <SlashMenu
+          query={query}
+          setInputValue={handleSetInputValue}
+          setShowMenu={setShowMenu}
+        />
+      )}
+      <button onClick={handleSave}>Save</button>
     </div>
   );
 };
