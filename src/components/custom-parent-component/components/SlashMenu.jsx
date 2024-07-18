@@ -1,10 +1,5 @@
 import React from "react";
-import useEditorStore from "../../../store/editor.tsx"; // Adjust the path as necessary
-import {
-  coreReactModel,
-  coreReactView,
-} from "@/grapesjs-core/react-components.js";
-import CustomGrapesjsParent from "../custom-grapesjs-parent.jsx";
+import useEditorStore from "../../../store/editor.tsx";
 
 const SlashMenu = ({ query, setInputValue, setShowMenu }) => {
   const { availableBlocks, editor } = useEditorStore();
@@ -48,9 +43,10 @@ const SlashMenu = ({ query, setInputValue, setShowMenu }) => {
                   <div
                     key={idx}
                     style={{ padding: "3px", cursor: "pointer" }}
-                    onClick={() =>
-                      handleOnClickSlashMenuItem(item.attributes.id)
-                    }
+                    onClick={() => {
+                      console.log("Click");
+                      handleOnClickSlashMenuItem(item.attributes.id);
+                    }}
                   >
                     {item.attributes.label}
                   </div>

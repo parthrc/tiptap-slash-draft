@@ -3,6 +3,7 @@ import React from "react";
 import BlockNoteEditor from "../components/Blocknote";
 import SampleComponent from "../components/SampleComponent";
 import SecondSample from "../components/SecondSample";
+import CustomTextEditor from "../components/CustomTextEditor.jsx";
 import CustomGrapesjsParent from "../components/custom-parent-component/custom-grapesjs-parent.jsx";
 
 const coreReactModel = {
@@ -151,6 +152,21 @@ export default (editor) => {
       ...coreReactModel,
       defaults: {
         component: CustomGrapesjsParent,
+        tagName: "div",
+        draggable: true,
+        droppable: true,
+        editable: false,
+        attributes: { class: "customGrapesjs" },
+      },
+    },
+    view: coreReactView,
+  });
+
+  domc.addType("custom-text-editor", {
+    model: {
+      ...coreReactModel,
+      defaults: {
+        component: CustomTextEditor,
         tagName: "div",
         draggable: true,
         droppable: true,

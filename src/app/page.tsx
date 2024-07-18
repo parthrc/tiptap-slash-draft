@@ -1,12 +1,11 @@
 "use client";
 
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import "grapesjs/dist/css/grapes.min.css";
 import GrapesJS from "grapesjs";
 import ReactComponents from "../grapesjs-core/react-components";
 import GrapesjsWebpagePresetPlugin from "grapesjs-preset-webpage";
 import useEditorStore from "@/store/editor";
-import CustomGrapesjsParent from "@/components/custom-parent-component/custom-grapesjs-parent";
 
 export default function Home() {
   const { setAvailableBlocks, setEditor } = useEditorStore();
@@ -71,6 +70,13 @@ export default function Home() {
     editor.Blocks.add("custom-grapesjs-parent", {
       label: "Custom Grapesjs Parent",
       content: { type: "custom-grapesjs-parent" },
+      category: "React Component",
+    });
+
+    // Block for custom text editor
+    editor.Blocks.add("custom-text-editor", {
+      label: "Custom Text Editor",
+      content: { type: "custom-text-editor" },
       category: "React Component",
     });
 

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import SlashMenu from "./SlashMenu.jsx";
 import Tiptap from "../../tiptap/Tiptap.jsx";
 
@@ -6,6 +6,7 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
   const [inputValue, setInputValue] = useState(text);
   const [showMenu, setShowMenu] = useState(false);
   const [query, setQuery] = useState("");
+  const slashMenuRef = useRef(null);
 
   const handleInputChange = (content) => {
     setInputValue(content);
@@ -18,13 +19,27 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
     }
   };
 
-  const handleSave = () => {
+  const handleBlur = (event) => {
+    if (
+      slashMenuRef.current &&
+      slashMenuRef.current.contains(event.relatedTarget)
+    ) {
+      return;
+    }
     if (inputValue.trim() === "") {
       onCancel();
     } else {
       onSave(inputValue);
     }
   };
+
+  // const handleSave = () => {
+  //   if (inputValue.trim() === "") {
+  //     onCancel();
+  //   } else {
+  //     onSave(inputValue);
+  //   }
+  // };
 
   const handleSetInputValue = (value) => {
     const lastSlashIndex = inputValue.lastIndexOf("/");
@@ -35,15 +50,20 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
 
   return (
     <div style={{ position: "relative" }}>
-      <Tiptap initialValue={inputValue} onChange={handleInputChange} />
+      <Tiptap
+        initialValue={inputValue}
+        onChange={handleInputChange}
+        onBlur={handleBlur}
+      />
       {showMenu && (
-        <SlashMenu
-          query={query}
-          setInputValue={handleSetInputValue}
-          setShowMenu={setShowMenu}
-        />
+        <div ref={slashMenuRef}>
+          <SlashMenu
+            query={query}
+            setInputValue={handleSetInputValue}
+            setShowMenu={setShowMenu}
+          />
+        </div>
       )}
-      <button onClick={handleSave}>Save</button>
     </div>
   );
 };
