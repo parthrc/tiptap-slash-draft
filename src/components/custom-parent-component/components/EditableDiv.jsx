@@ -29,15 +29,15 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
       return; // Skip handling onBlur
     }
 
-    // Check if the related target is within the SlashMenu component
+    // Check if click happened inside the slash menu
     if (
       slashMenuRef.current &&
       slashMenuRef.current.contains(event.relatedTarget)
     ) {
-      return; // Skip handling onBlur
+      return; // Strop onBlur if true
     }
 
-    // Handle save or cancel based on input value
+    // Handel save or cancel based on input value
     if (inputValue.trim() === "") {
       onCancel();
     } else {
