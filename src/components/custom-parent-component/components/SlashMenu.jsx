@@ -1,19 +1,24 @@
-import React from "react";
-import useEditorStore from "../../../store/editor.tsx";
+import React, { useState } from "react";
+import useEditorStore from "../../../store/editor.tsx"; // Adjust import path based on your actual store location
 
-const SlashMenu = ({ query, setInputValue, setShowMenu }) => {
-  const { availableBlocks, editor } = useEditorStore();
+const SlashMenu = ({ query, setInputValue, setShowMenu, onItemClick }) => {
+  const { availableBlocks, editor } = useEditorStore(); // Assuming useEditorStore provides editor instance
 
   const handleOnClickSlashMenuItem = (value) => {
     console.log("Clicked on slash menu item", value);
 
     setShowMenu(false);
-    // create a jsx component from the component ID
-    const jsxComponent = React.createElement(value);
-    console.log("componentName", typeof jsxComponent);
 
+    // Create a JSX component from the component ID (example usage)
+    const jsxComponent = React.createElement(value); // Ensure `value` is a valid React component
+
+    // Example: Add component to editor (adjust as per your editor's API)
     editor.addComponents(jsxComponent);
+
+    // Notify EditableDiv that a menu item was clicked
+    onItemClick(true);
   };
+
   return (
     <div
       style={{
@@ -24,9 +29,6 @@ const SlashMenu = ({ query, setInputValue, setShowMenu }) => {
       }}
     >
       {availableBlocks.map((block, index) => {
-        if (block.category) {
-          console.log(block.category.attributes.label, "Block=", block.items);
-        }
         if (
           block.category &&
           block.category.attributes.label
@@ -43,10 +45,9 @@ const SlashMenu = ({ query, setInputValue, setShowMenu }) => {
                   <div
                     key={idx}
                     style={{ padding: "3px", cursor: "pointer" }}
-                    onClick={() => {
-                      console.log("Click");
-                      handleOnClickSlashMenuItem(item.attributes.id);
-                    }}
+                    onMouseDown={() =>
+                      handleOnClickSlashMenuItem(item.attributes.id)
+                    }
                   >
                     {item.attributes.label}
                   </div>

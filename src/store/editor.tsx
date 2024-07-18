@@ -14,7 +14,6 @@ const useEditorStore = create<EditorStore>((set) => ({
   availableBlocks: [],
   setAvailableBlocks: (blocks: BlocksByCategory[]) => {
     set({ availableBlocks: blocks });
-    console.log("Blocks set in store =", blocks);
   },
 }));
 

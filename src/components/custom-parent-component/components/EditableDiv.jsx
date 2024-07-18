@@ -6,6 +6,7 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
   const [inputValue, setInputValue] = useState(text);
   const [showMenu, setShowMenu] = useState(false);
   const [query, setQuery] = useState("");
+  const [clickedOnMenuItem, setClickedOnMenuItem] = useState(false); // State to track menu item clicks
   const slashMenuRef = useRef(null);
 
   const handleInputChange = (content) => {
@@ -20,26 +21,29 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
   };
 
   const handleBlur = (event) => {
+    console.log("Inside onBlur");
+    console.log("clickedOnMenuItem", clickedOnMenuItem);
+    // Check if a menu item was clicked
+    if (clickedOnMenuItem) {
+      setClickedOnMenuItem(false); // Reset clickedOnMenuItem flag
+      return; // Skip handling onBlur
+    }
+
+    // Check if the related target is within the SlashMenu component
     if (
       slashMenuRef.current &&
       slashMenuRef.current.contains(event.relatedTarget)
     ) {
-      return;
+      return; // Skip handling onBlur
     }
+
+    // Handle save or cancel based on input value
     if (inputValue.trim() === "") {
       onCancel();
     } else {
       onSave(inputValue);
     }
   };
-
-  // const handleSave = () => {
-  //   if (inputValue.trim() === "") {
-  //     onCancel();
-  //   } else {
-  //     onSave(inputValue);
-  //   }
-  // };
 
   const handleSetInputValue = (value) => {
     const lastSlashIndex = inputValue.lastIndexOf("/");
@@ -61,6 +65,7 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
             query={query}
             setInputValue={handleSetInputValue}
             setShowMenu={setShowMenu}
+            onItemClick={setClickedOnMenuItem} // Pass function to set clickedOnMenuItem
           />
         </div>
       )}

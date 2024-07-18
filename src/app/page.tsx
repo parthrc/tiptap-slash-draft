@@ -85,8 +85,7 @@ export default function Home() {
     // using Blocks API
     // get list of all available blocks
     const blockManager = editor.Blocks;
-    console.log("blockManager", blockManager.getBlocksByCategory());
-    console.log("All blocks=", blockManager.getAll().models);
+
     setAvailableBlocks(blockManager.getBlocksByCategory());
   }, []);
 
