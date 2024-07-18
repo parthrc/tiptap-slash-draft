@@ -20,7 +20,6 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
   };
 
   const handleBlur = (event) => {
-    if (!event) return;
     if (
       slashMenuRef.current &&
       slashMenuRef.current.contains(event.relatedTarget)
