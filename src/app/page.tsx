@@ -18,6 +18,7 @@ export default function Home() {
       noticeOnUnload: false,
       storageManager: false,
       plugins: [ReactComponents, GrapesjsWebpagePresetPlugin],
+
       canvas: {
         styles: [
           "styles/blocknote-mantine.css",
@@ -36,6 +37,7 @@ export default function Home() {
     });
 
     if (editor) {
+      console.log(typeof editor);
       setEditor(editor);
     }
 
