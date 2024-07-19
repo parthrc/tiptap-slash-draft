@@ -1,18 +1,17 @@
 import React, { useState } from "react";
-import useEditorStore from "../../../store/editor.tsx"; // Adjust import path based on your actual store location
+import useEditorStore from "../../../store/editor.tsx";
 
 const SlashMenu = ({ query, setInputValue, setShowMenu, onItemClick }) => {
-  const { availableBlocks, editor } = useEditorStore(); // Assuming useEditorStore provides editor instance
+  const { availableBlocks, editor } = useEditorStore();
 
   const handleOnClickSlashMenuItem = (value) => {
     console.log("Clicked on slash menu item", value);
 
     setShowMenu(false);
 
-    // Create a JSX component from the component ID (example usage)
-    const jsxComponent = React.createElement(value); // Ensure `value` is a valid React component
+    // Create a JSX component from the component ID
+    const jsxComponent = React.createElement(value);
 
-    // Example: Add component to editor (adjust as per your editor's API)
     editor.addComponents(jsxComponent);
 
     // Notify EditableDiv that a menu item was clicked

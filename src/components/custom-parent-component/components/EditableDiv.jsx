@@ -15,28 +15,26 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
   const editorRef = useRef(null);
 
   const handleInputChange = (content) => {
-    console.log("content", content);
+    console.log("handleOnChange", content);
     setInputValue(content); // Save content as HTML
-    const lastSlashIndex = content.lastIndexOf("/");
-    console.log("lastSlashIndex", lastSlashIndex);
-    if (lastSlashIndex !== -1) {
-      setShowMenu(true);
-      setQuery(content.substring(lastSlashIndex + 1));
-    } else {
-      setShowMenu(false);
-    }
   };
 
   const handleBlur = (event) => {
-    // Safeguard to ensure event is defined
+    //  ensure event is defined
     if (!event) {
-      console.warn("Blur event is undefined");
+      console.log("Blur event is undefined");
       return;
     }
-
-    if (clickedOnMenuItem || clickedToolbar) {
+    console.log("clickedOnMenuItem", clickedOnMenuItem);
+    console.log("clickedToolbar", clickedToolbar);
+    if (clickedOnMenuItem) {
       setClickedOnMenuItem(false);
+      return;
+    }
+    if (clickedToolbar) {
+      console.log("retuuning after oolbar click");
       setClickedToolbar(false);
+
       return;
     }
 
@@ -45,9 +43,10 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
       slashMenuRef.current &&
       slashMenuRef.current.contains(event.relatedTarget)
     ) {
+      console.log("Stopping onBlur due to slash");
       return; // Stop onBlur if true
     }
-
+    console.log("onBlur input value", inputValue);
     if (inputValue.trim() === "") {
       onCancel();
     } else {
@@ -63,19 +62,24 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
   };
 
   const handleMenuAction = (action) => {
+    setClickedToolbar(true);
+    console.log("Inside handlemenuAction");
     if (!tiptapEditor) return;
 
     switch (action) {
       case "bold":
+        console.log("bold fired");
         tiptapEditor.chain().focus().toggleBold().run();
         break;
       case "italic":
         tiptapEditor.chain().focus().toggleItalic().run();
+
         break;
       case "underline":
-        // Add underline functionality if you have the underline extension
+        // tiptapEditor.chain().focus().toggleUnderline().run();
         break;
       default:
+        console.log("default case");
         break;
     }
   };
@@ -92,6 +96,8 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
             initialValue={inputValue}
             onChange={handleInputChange}
             onBlur={handleBlur}
+            setShowMenu={setShowMenu}
+            showMenu={showMenu}
           />
         </div>
       </div>
