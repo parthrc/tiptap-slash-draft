@@ -45,6 +45,7 @@ const CustomGrapesjsParent = () => {
   };
 
   const handleSave = (index, newText) => {
+    console.log("newText", newText);
     setDivs((prevDivs) =>
       prevDivs.map((div, i) => (i === index ? newText : div))
     );

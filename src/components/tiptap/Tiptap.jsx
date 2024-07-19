@@ -2,25 +2,33 @@
 
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+import { useEffect } from "react";
+import useEditorStore from "@/store/editor.tsx";
 
 const Tiptap = ({ initialValue, onChange, onBlur }) => {
-  const tiptapeditor = useEditor({
+  const { setTiptapEditor } = useEditorStore();
+
+  const tiptapEditor = useEditor({
     extensions: [StarterKit],
-    content: initialValue,
-    immediatelyRender: false,
+    content: initialValue, // Ensure initial content is set correctly
     autofocus: true,
     onUpdate({ editor }) {
-      onChange(editor.getText());
+      onChange(editor.getText()); // Get HTML to preserve formatting
     },
-
     onBlur({ editor, event }) {
       event.preventDefault();
-      onBlur();
+      onBlur(event);
     },
   });
 
+  useEffect(() => {
+    if (tiptapEditor) {
+      setTiptapEditor(tiptapEditor);
+    }
+  }, [tiptapEditor, setTiptapEditor]);
+
   return (
-    <EditorContent editor={tiptapeditor} style={{ border: "2px solid red" }} />
+    <EditorContent editor={tiptapEditor} style={{ border: "2px solid red" }} />
   );
 };
 

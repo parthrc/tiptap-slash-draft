@@ -15,7 +15,6 @@ const FixedMenu = ({ onAction, setClickedToolbar }) => {
       <button
         onMouseDown={() => {
           setClickedToolbar(true);
-
           onAction("italic");
         }}
       >
@@ -25,7 +24,6 @@ const FixedMenu = ({ onAction, setClickedToolbar }) => {
       <button
         onMouseDown={() => {
           setClickedToolbar(true);
-
           onAction("underline");
         }}
       >

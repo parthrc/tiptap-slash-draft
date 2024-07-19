@@ -1,27 +1,24 @@
-import { BlocksByCategory, Editor } from "grapesjs";
-import { Editor as tippyEditor } from "@tiptap/core";
+import { Editor as TiptapEditor } from "@tiptap/core";
+import { Editor as GrapesJSEditor, BlocksByCategory } from "grapesjs";
 import { create } from "zustand";
 
 type EditorStore = {
-  editor: Editor | null;
-  setEditor: (editor: Editor) => void;
-  TipTapEditor: tippyEditor | null;
-  setTipTapEditor: (tiptapeditor: tippyEditor) => void;
+  editor: GrapesJSEditor | null;
+  setEditor: (editor: GrapesJSEditor) => void;
+  tiptapEditor: TiptapEditor | null;
+  setTiptapEditor: (tiptapEditor: TiptapEditor) => void;
   availableBlocks: BlocksByCategory[];
   setAvailableBlocks: (blocks: BlocksByCategory[]) => void;
 };
 
 const useEditorStore = create<EditorStore>((set) => ({
   editor: null,
-  setEditor: (editor: Editor) => set({ editor }),
-  TipTapEditor: null,
-  setTipTapEditor: (tiptapeditor: tippyEditor) => {
-    set({ TipTapEditor: tiptapeditor });
-  },
+  setEditor: (editor: GrapesJSEditor) => set({ editor }),
+  tiptapEditor: null,
+  setTiptapEditor: (tiptapEditor: TiptapEditor) => set({ tiptapEditor }),
   availableBlocks: [],
-  setAvailableBlocks: (blocks: BlocksByCategory[]) => {
-    set({ availableBlocks: blocks });
-  },
+  setAvailableBlocks: (blocks: BlocksByCategory[]) =>
+    set({ availableBlocks: blocks }),
 }));
 
 export default useEditorStore;

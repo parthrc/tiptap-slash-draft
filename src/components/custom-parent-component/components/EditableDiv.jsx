@@ -1,27 +1,24 @@
-import React, { useRef, useState } from "react";
+import React, { useState, useRef } from "react";
 import SlashMenu from "./SlashMenu.jsx";
 import Tiptap from "../../tiptap/Tiptap.jsx";
 import FixedMenu from "../../tiptap/FixedMenu.jsx";
 import useEditorStore from "@/store/editor.tsx";
-import { useEditor } from "@tiptap/react";
-import StarterKit from "@tiptap/starter-kit";
 
 const EditableDiv = ({ text, onSave, onCancel }) => {
+  const { tiptapEditor } = useEditorStore();
   const [inputValue, setInputValue] = useState(text);
   const [showMenu, setShowMenu] = useState(false);
   const [query, setQuery] = useState("");
-  // State to track menu item clicks
   const [clickedOnMenuItem, setClickedOnMenuItem] = useState(false);
-  // state to track toolbar clicks
   const [clickedToolbar, setClickedToolbar] = useState(false);
   const slashMenuRef = useRef(null);
   const editorRef = useRef(null);
-  // current tiptap instance
-  const editor = useEditor();
 
   const handleInputChange = (content) => {
-    setInputValue(content);
+    console.log("content", content);
+    setInputValue(content); // Save content as HTML
     const lastSlashIndex = content.lastIndexOf("/");
+    console.log("lastSlashIndex", lastSlashIndex);
     if (lastSlashIndex !== -1) {
       setShowMenu(true);
       setQuery(content.substring(lastSlashIndex + 1));
@@ -31,30 +28,30 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
   };
 
   const handleBlur = (event) => {
-    console.log("Inside onBlur");
-    console.log("clickedOnMenuItem", clickedOnMenuItem);
-    console.log("clickedToolbar", clickedToolbar);
-    // Check if a menu item was clicked
-    if (clickedOnMenuItem || clickedToolbar) {
-      // Reset clickedOnMenuItem flag
-      setClickedOnMenuItem(false);
-      setClickedToolbar(false);
-      return; // Skip handling onBlur
+    // Safeguard to ensure event is defined
+    if (!event) {
+      console.warn("Blur event is undefined");
+      return;
     }
 
-    // Check if click happened inside the slash menu
+    if (clickedOnMenuItem || clickedToolbar) {
+      setClickedOnMenuItem(false);
+      setClickedToolbar(false);
+      return;
+    }
+
+    // Check if the blur event happened within the slash menu
     if (
       slashMenuRef.current &&
       slashMenuRef.current.contains(event.relatedTarget)
     ) {
-      return; // Strop onBlur if true
+      return; // Stop onBlur if true
     }
 
-    // Handel save or cancel based on input value
     if (inputValue.trim() === "") {
       onCancel();
     } else {
-      onSave(inputValue);
+      onSave(inputValue); // Save the content with formatting
     }
   };
 
@@ -66,20 +63,17 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
   };
 
   const handleMenuAction = (action) => {
-    console.log("Inside toolbar handle");
+    if (!tiptapEditor) return;
 
     switch (action) {
       case "bold":
-        console.log(editor);
-        console.log("bold clikced", editor.chain);
-
-        // editor.editor.
+        tiptapEditor.chain().focus().toggleBold().run();
         break;
       case "italic":
-        editor.chain().focus().toggleItalic().run();
+        tiptapEditor.chain().focus().toggleItalic().run();
         break;
       case "underline":
-        // myeditor.chain().focus().toggleUnderline().run();
+        // Add underline functionality if you have the underline extension
         break;
       default:
         break;
@@ -107,7 +101,7 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
             query={query}
             setInputValue={handleSetInputValue}
             setShowMenu={setShowMenu}
-            onItemClick={setClickedOnMenuItem} // Pass function to set clickedOnMenuItem
+            onItemClick={setClickedOnMenuItem}
           />
         </div>
       )}
