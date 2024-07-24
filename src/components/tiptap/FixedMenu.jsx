@@ -1,6 +1,7 @@
 import React from "react";
 
 const FixedMenu = ({ onAction, setClickedToolbar }) => {
+
   return (
     <div>
       <button
@@ -21,10 +22,18 @@ const FixedMenu = ({ onAction, setClickedToolbar }) => {
 
       <button
         onMouseDown={() => {
-          onAction("underline");
+          onAction("strike");
         }}
       >
-        Underline
+        Strike
+      </button>
+
+      <button
+        onMouseDown={() => {
+          onAction("bullet");
+        }}
+      >
+        Bullet
       </button>
     </div>
   );

@@ -1,21 +1,35 @@
 import React, { useState } from "react";
 import useEditorStore from "../../../store/editor.tsx";
+import { type } from "os";
+import { handleMenuAction } from "./EditableDiv.jsx";
+
+const slashMenuItems = [
+  { label: "label ", type: "block", data: {} },
+  { label: "label ", type: "rte", data: {} },
+];
 
 const SlashMenu = ({ query, setInputValue, setShowMenu, onItemClick }) => {
   const { availableBlocks, editor } = useEditorStore();
 
   const handleOnClickSlashMenuItem = (value) => {
     console.log("Clicked on slash menu item", value);
+    // check type of clicked item and proceed accordingly
 
-    setShowMenu(false);
+    // if custom component
+    if (value.type === "custom-component") {
+      // Create a JSX component from the component ID
+      const jsxComponent = React.createElement(value.component_id);
+      editor.addComponents(jsxComponent);
+    }
 
-    // Create a JSX component from the component ID
-    const jsxComponent = React.createElement(value);
-
-    editor.addComponents(jsxComponent);
-
+    // if tiptap menu item
+    if (value.type === "rte") {
+      handleMenuAction(value.label);
+    }
     // Notify EditableDiv that a menu item was clicked
     onItemClick(true);
+    // close slash menu
+    setShowMenu(false);
   };
 
   return (
@@ -28,6 +42,18 @@ const SlashMenu = ({ query, setInputValue, setShowMenu, onItemClick }) => {
       }}
     >
       {availableBlocks.map((block, index) => {
+        // console.log("block=", block.label);
+        return (
+          <div
+            key={index}
+            style={{ padding: "5px", cursor: "pointer" }}
+            onMouseDown={() => handleOnClickSlashMenuItem(block)}
+          >
+            {block.label}
+          </div>
+        );
+      })}
+      {/* {availableBlocks.map((block, index) => {
         if (
           block.category &&
           block.category.attributes.label
@@ -55,7 +81,7 @@ const SlashMenu = ({ query, setInputValue, setShowMenu, onItemClick }) => {
           );
         }
         return null;
-      })}
+      })} */}
     </div>
   );
 };

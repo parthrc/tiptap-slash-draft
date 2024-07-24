@@ -1,8 +1,34 @@
 import React, { useState, useRef } from "react";
+import PropTypes from "prop-types";
 import SlashMenu from "./SlashMenu.jsx";
 import Tiptap from "../../tiptap/Tiptap.jsx";
 import FixedMenu from "../../tiptap/FixedMenu.jsx";
 import useEditorStore from "@/store/editor.tsx";
+
+const handleMenuAction = (tiptapEditor, action, setClickedToolbar) => {
+  setClickedToolbar(true);
+  console.log("Inside handleMenuAction");
+  if (!tiptapEditor) return;
+
+  switch (action) {
+    case "bold":
+      console.log("bold fired");
+      tiptapEditor.chain().focus().toggleBold().run();
+      break;
+    case "italic":
+      tiptapEditor.chain().focus().toggleItalic().run();
+      break;
+    case "strike":
+      tiptapEditor.chain().focus().toggleStrike().run();
+      break;
+    case "bullet":
+      tiptapEditor.chain().focus().toggleBulletList().run();
+      break;
+    default:
+      console.log("default case");
+      break;
+  }
+};
 
 const EditableDiv = ({ text, onSave, onCancel }) => {
   const { tiptapEditor } = useEditorStore();
@@ -20,7 +46,7 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
   };
 
   const handleBlur = (event) => {
-    //  ensure event is defined
+    // Ensure event is defined
     if (!event) {
       console.log("Blur event is undefined");
       return;
@@ -32,9 +58,8 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
       return;
     }
     if (clickedToolbar) {
-      console.log("retuuning after oolbar click");
+      console.log("returning after toolbar click");
       setClickedToolbar(false);
-
       return;
     }
 
@@ -61,34 +86,13 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
     setShowMenu(false);
   };
 
-  const handleMenuAction = (action) => {
-    setClickedToolbar(true);
-    console.log("Inside handlemenuAction");
-    if (!tiptapEditor) return;
-
-    switch (action) {
-      case "bold":
-        console.log("bold fired");
-        tiptapEditor.chain().focus().toggleBold().run();
-        break;
-      case "italic":
-        tiptapEditor.chain().focus().toggleItalic().run();
-
-        break;
-      case "underline":
-        // tiptapEditor.chain().focus().toggleUnderline().run();
-        break;
-      default:
-        console.log("default case");
-        break;
-    }
-  };
-
   return (
     <div style={{ position: "relative" }}>
       <div>
         <FixedMenu
-          onAction={handleMenuAction}
+          onAction={(action) =>
+            handleMenuAction(tiptapEditor, action, setClickedToolbar)
+          }
           setClickedToolbar={setClickedToolbar}
         />
         <div ref={editorRef}>
@@ -115,4 +119,14 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
   );
 };
 
-export default EditableDiv;
+// EditableDiv.propTypes = {
+//   text: PropTypes.string,
+//   onSave: PropTypes.func.isRequired,
+//   onCancel: PropTypes.func.isRequired,
+// };
+
+// EditableDiv.defaultProps = {
+//   text: "",
+// };
+
+export { EditableDiv, handleMenuAction };

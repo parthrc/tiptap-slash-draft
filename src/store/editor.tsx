@@ -7,8 +7,8 @@ type EditorStore = {
   setEditor: (editor: GrapesJSEditor) => void;
   tiptapEditor: TiptapEditor | null;
   setTiptapEditor: (tiptapEditor: TiptapEditor) => void;
-  availableBlocks: BlocksByCategory[];
-  setAvailableBlocks: (blocks: BlocksByCategory[]) => void;
+  availableBlocks: [];
+  setAvailableBlocks: (blocks: []) => void;
 };
 
 const useEditorStore = create<EditorStore>((set) => ({
@@ -17,8 +17,7 @@ const useEditorStore = create<EditorStore>((set) => ({
   tiptapEditor: null,
   setTiptapEditor: (tiptapEditor: TiptapEditor) => set({ tiptapEditor }),
   availableBlocks: [],
-  setAvailableBlocks: (blocks: BlocksByCategory[]) =>
-    set({ availableBlocks: blocks }),
+  setAvailableBlocks: (blocks: []) => set({ availableBlocks: blocks }),
 }));
 
 export default useEditorStore;

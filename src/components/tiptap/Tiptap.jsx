@@ -2,6 +2,7 @@
 
 import { useEditor, EditorContent } from "@tiptap/react";
 import StarterKit from "@tiptap/starter-kit";
+// import { StarterKit } from "@syfxlin/tiptap-starter-kit";
 import { useEffect } from "react";
 import useEditorStore from "@/store/editor.tsx";
 
@@ -9,7 +10,7 @@ const Tiptap = ({ initialValue, onChange, onBlur, setShowMenu, showMenu }) => {
   const { setTiptapEditor } = useEditorStore();
 
   const tiptapEditor = useEditor({
-    extensions: [StarterKit],
+    extensions: [StarterKit.configure({})],
     content: initialValue,
     autofocus: true,
     onUpdate({ editor }) {

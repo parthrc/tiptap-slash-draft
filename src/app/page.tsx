@@ -6,6 +6,7 @@ import GrapesJS from "grapesjs";
 import ReactComponents from "../grapesjs-core/react-components";
 import GrapesjsWebpagePresetPlugin from "grapesjs-preset-webpage";
 import useEditorStore from "@/store/editor";
+import { handleMenuAction } from "@/components/custom-parent-component/components/EditableDiv";
 
 export default function Home() {
   const { setAvailableBlocks, setEditor } = useEditorStore();
@@ -87,8 +88,33 @@ export default function Home() {
     // using Blocks API
     // get list of all available blocks
     const blockManager = editor.Blocks;
+    const allBlocks = blockManager.getBlocksByCategory();
+    // console.log("all blocks", allBlocks);
+    // an empty array to store nlocks and rte options
+    let finalSlashList = [
+      { label: "bold", type: "rte" },
+      { label: "italic", type: "rte" },
+      { label: "strike", type: "rte" },
+      { label: "bullet", type: "rte" },
+    ];
+    // add all blocks to slashMenuItems
+    allBlocks.map((block) => {
+      if (block.category) {
+        if (block.items) {
+          block.items.map((item) => {
+            finalSlashList.push({
+              label: item.attributes.label,
+              type: "custom-component",
+              component_id: item.attributes.id,
+            });
+            // console.log("Item=", item.attributes.label);
+          });
+        }
+      }
+    });
 
-    setAvailableBlocks(blockManager.getBlocksByCategory());
+    // console.log("Final slash list=", finalSlashList);
+    setAvailableBlocks(finalSlashList);
   }, []);
 
   return <div id="gjs" />;

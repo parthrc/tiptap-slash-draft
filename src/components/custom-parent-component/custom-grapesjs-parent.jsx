@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import "./custom-grapesjs-parent.css";
-import EditableDiv from "./components/EditableDiv.jsx";
+import { EditableDiv } from "./components/EditableDiv.jsx";
+import parse from "html-react-parser";
 
 const CustomGrapesjsParent = () => {
   const [divs, setDivs] = useState([
@@ -86,7 +87,7 @@ const CustomGrapesjsParent = () => {
               onCancel={handleCancel}
             />
           ) : (
-            div || ""
+            parse(div)
           )}
         </div>
       ))}
