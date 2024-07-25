@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 import useEditorStore from "../../../store/editor.tsx";
-import { type } from "os";
-import { handleMenuAction } from "./EditableDiv.jsx";
 
 const slashMenuItems = [
   { label: "label ", type: "block", data: {} },
   { label: "label ", type: "rte", data: {} },
 ];
 
-const SlashMenu = ({ query, setInputValue, setShowMenu, onItemClick }) => {
+const SlashMenu = ({
+  query,
+  setInputValue,
+  setShowMenu,
+  onItemClick,
+  handleMenuAction,
+}) => {
   const { availableBlocks, editor } = useEditorStore();
 
   const handleOnClickSlashMenuItem = (value) => {

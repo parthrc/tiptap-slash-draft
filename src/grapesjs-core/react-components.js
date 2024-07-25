@@ -5,6 +5,7 @@ import SampleComponent from "../components/SampleComponent";
 import SecondSample from "../components/SecondSample";
 import CustomTextEditor from "../components/CustomTextEditor.jsx";
 import CustomGrapesjsParent from "../components/custom-parent-component/custom-grapesjs-parent.jsx";
+import SingleEditableDiv from "../components/custom-parent-component/components/single-editable.jsx";
 
 const coreReactModel = {
   toHTML(opts = {}) {
@@ -172,6 +173,21 @@ export default (editor) => {
         droppable: true,
         editable: false,
         attributes: { class: "customGrapesjs" },
+      },
+    },
+    view: coreReactView,
+  });
+
+  domc.addType("single-editable-div", {
+    model: {
+      ...coreReactModel,
+      defaults: {
+        component: SingleEditableDiv,
+        tagName: "div",
+        draggable: true,
+        droppable: true,
+        editable: false,
+        attributes: { class: "singleEditable" },
       },
     },
     view: coreReactView,

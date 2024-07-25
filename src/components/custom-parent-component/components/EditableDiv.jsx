@@ -1,34 +1,10 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import PropTypes from "prop-types";
 import SlashMenu from "./SlashMenu.jsx";
 import Tiptap from "../../tiptap/Tiptap.jsx";
 import FixedMenu from "../../tiptap/FixedMenu.jsx";
 import useEditorStore from "@/store/editor.tsx";
-
-const handleMenuAction = (tiptapEditor, action, setClickedToolbar) => {
-  setClickedToolbar(true);
-  console.log("Inside handleMenuAction");
-  if (!tiptapEditor) return;
-
-  switch (action) {
-    case "bold":
-      console.log("bold fired");
-      tiptapEditor.chain().focus().toggleBold().run();
-      break;
-    case "italic":
-      tiptapEditor.chain().focus().toggleItalic().run();
-      break;
-    case "strike":
-      tiptapEditor.chain().focus().toggleStrike().run();
-      break;
-    case "bullet":
-      tiptapEditor.chain().focus().toggleBulletList().run();
-      break;
-    default:
-      console.log("default case");
-      break;
-  }
-};
+import useRefStore from "@/store/refStore.jsx";
 
 const EditableDiv = ({ text, onSave, onCancel }) => {
   const { tiptapEditor } = useEditorStore();
@@ -39,6 +15,44 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
   const [clickedToolbar, setClickedToolbar] = useState(false);
   const slashMenuRef = useRef(null);
   const editorRef = useRef(null);
+  const setMyRef = useRefStore((state) => state.setMyRef);
+  const myRef = useRefStore((state) => state.myRef);
+
+  useEffect(() => {
+    setMyRef(editorRef);
+  }, [editorRef, setMyRef]);
+
+  const handleMenuAction = (action) => {
+    setClickedToolbar(true);
+    console.log("Inside handleMenuAction", action);
+    if (!tiptapEditor) return;
+
+    switch (action) {
+      case "bold":
+        console.log("bold fired");
+        tiptapEditor.chain().focus().toggleBold().run();
+        break;
+      case "italic":
+        tiptapEditor.chain().focus().toggleItalic().run();
+        break;
+      case "strike":
+        tiptapEditor.chain().focus().toggleStrike().run();
+        break;
+      case "bullet":
+        tiptapEditor.chain().focus().toggleBulletList().run();
+        break;
+      case "h1":
+        tiptapEditor.chain().focus().toggleHeading({ level: 1 }).run();
+        tiptapEditor.commands.focus("end");
+        break;
+
+      default:
+        console.log("default case");
+        break;
+    }
+
+    tiptapEditor.commands.focus("end");
+  };
 
   const handleInputChange = (content) => {
     console.log("handleOnChange", content);
@@ -46,7 +60,7 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
   };
 
   const handleBlur = (event) => {
-    // Ensure event is defined
+    console.log("handle blur fired");
     if (!event) {
       console.log("Blur event is undefined");
       return;
@@ -63,13 +77,12 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
       return;
     }
 
-    // Check if the blur event happened within the slash menu
     if (
       slashMenuRef.current &&
       slashMenuRef.current.contains(event.relatedTarget)
     ) {
       console.log("Stopping onBlur due to slash");
-      return; // Stop onBlur if true
+      return;
     }
     console.log("onBlur input value", inputValue);
     if (inputValue.trim() === "") {
@@ -90,9 +103,7 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
     <div style={{ position: "relative" }}>
       <div>
         <FixedMenu
-          onAction={(action) =>
-            handleMenuAction(tiptapEditor, action, setClickedToolbar)
-          }
+          onAction={(action) => handleMenuAction(action)}
           setClickedToolbar={setClickedToolbar}
         />
         <div ref={editorRef}>
@@ -112,6 +123,7 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
             setInputValue={handleSetInputValue}
             setShowMenu={setShowMenu}
             onItemClick={setClickedOnMenuItem}
+            handleMenuAction={handleMenuAction}
           />
         </div>
       )}
@@ -119,14 +131,14 @@ const EditableDiv = ({ text, onSave, onCancel }) => {
   );
 };
 
-// EditableDiv.propTypes = {
-//   text: PropTypes.string,
-//   onSave: PropTypes.func.isRequired,
-//   onCancel: PropTypes.func.isRequired,
-// };
+EditableDiv.propTypes = {
+  text: PropTypes.string,
+  onSave: PropTypes.func.isRequired,
+  onCancel: PropTypes.func.isRequired,
+};
 
-// EditableDiv.defaultProps = {
-//   text: "",
-// };
+EditableDiv.defaultProps = {
+  text: "",
+};
 
-export { EditableDiv, handleMenuAction };
+export { EditableDiv };

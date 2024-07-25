@@ -6,7 +6,6 @@ import GrapesJS from "grapesjs";
 import ReactComponents from "../grapesjs-core/react-components";
 import GrapesjsWebpagePresetPlugin from "grapesjs-preset-webpage";
 import useEditorStore from "@/store/editor";
-import { handleMenuAction } from "@/components/custom-parent-component/components/EditableDiv";
 
 export default function Home() {
   const { setAvailableBlocks, setEditor } = useEditorStore();
@@ -19,6 +18,11 @@ export default function Home() {
       noticeOnUnload: false,
       storageManager: false,
       plugins: [ReactComponents, GrapesjsWebpagePresetPlugin],
+      // to apply styles to individual components
+
+      selectorManager: {
+        componentFirst: true,
+      },
 
       canvas: {
         styles: [
@@ -83,6 +87,13 @@ export default function Home() {
       category: "React Component",
     });
 
+    // Block for single editable div
+    editor.Blocks.add("single-editable-div", {
+      label: "Single Editable Div",
+      content: { type: "single-editable-div" },
+      category: "React Component",
+    });
+
     // Listen to events
 
     // using Blocks API
@@ -92,10 +103,11 @@ export default function Home() {
     // console.log("all blocks", allBlocks);
     // an empty array to store nlocks and rte options
     let finalSlashList = [
-      { label: "bold", type: "rte" },
-      { label: "italic", type: "rte" },
-      { label: "strike", type: "rte" },
+      // { label: "bold", type: "rte" },
+      // { label: "italic", type: "rte" },
+      // { label: "strike", type: "rte" },
       { label: "bullet", type: "rte" },
+      { label: "h1", type: "rte" },
     ];
     // add all blocks to slashMenuItems
     allBlocks.map((block) => {
